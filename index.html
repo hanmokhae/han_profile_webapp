@@ -3,35 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>차세대 지능형 온라인 자기소개 페이지</title>
+    <title>한목해 작가 - 차세대 지능형 온라인 자기소개</title>
     <style>
+        :root {
+            --primary-color: #1a73e8;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #202124;
+            --text-sub: #5f6368;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f5f5f7;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
         }
-        .container {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 400px;
+        .profile-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            max-width: 420px;
             width: 100%;
+            padding: 32px 24px;
+            box-sizing: border-box;
             text-align: center;
         }
-        h1 { font-size: 20px; color: #1d1d1f; margin-bottom: 10px; }
-        p { font-size: 14px; color: #86868b; }
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #e8f0fe;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        h1 { font-size: 24px; margin: 0 0 8px; }
+        .role { font-size: 16px; color: var(--primary-color); font-weight: 600; margin-bottom: 16px; }
+        .bio { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 24px; }
+        .section-title { font-size: 16px; font-weight: bold; margin: 24px 0 12px; text-align: left; border-bottom: 2px solid #e8eaed; padding-bottom: 6px; }
+        .info-list { list-style: none; padding: 0; margin: 0; text-align: left; }
+        .info-list li { padding: 8px 0; font-size: 14px; color: var(--text-sub); border-bottom: 1px solid #f1f3f4; }
+        .info-list li strong { color: var(--text-main); display: inline-block; width: 80px; }
+        .qr-section { margin-top: 24px; padding-top: 16px; border-top: 1px dashed #cedadb; }
+        .qr-placeholder { width: 140px; height: 140px; background-color: #f1f3f4; margin: 12px auto; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-sub); border: 1px solid #dadce0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>차세대지능형 온라인 자기소개페이지</h1>
-        <p>Vercel 정석 배포 파이프라인 구축 중입니다.</p>
+    <div class="profile-card">
+        <div class="avatar">한</div>
+        <h1>한목해 작가</h1>
+        <div class="role">시니어 디지털 기술·AI 교육 전문가</div>
+        <div class="bio">
+            4060 및 6070 세대를 위한 스마트 디바이스 및 생성형 AI 실용 교육을 진행합니다.<br>
+            복잡한 기술을 일상의 언어로 쉽게 풀어냅니다.
+        </div>
+        
+        <div class="section-title">전문 분야 및 경력</div>
+        <ul class="info-list">
+            <li><strong>주요 분야</strong> 스마트폰 활용, 생성형 AI(Gemini 등) 실무 적용</li>
+            <li><strong>교육 대상</strong> 시니어 강사 양성, 지자체 및 시니어클럽 특강</li>
+            <li><strong>콘텐츠</strong> 서울 둘레길 및 도보 여행 스토리텔링 채널 운영</li>
+        </ul>
+
+        <div class="qr-section">
+            <div style="font-size: 14px; font-weight: 600;">온라인 명함 QR 코드</div>
+            <div class="qr-placeholder">QR 코드 영역<br>(추후 이미지 연동)</div>
+        </div>
     </div>
 </body>
 </html>
