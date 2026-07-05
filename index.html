@@ -317,10 +317,21 @@
         const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwnBnMN2I7HNoD_EX2xhlOckZeliRYgNR7TmOtoJrofeJGPWv-civ37vx2qQXJJz9po/exec";
 
         window.addEventListener('DOMContentLoaded', () => {
+            applyDynamicTitle();
             renderQR();
             fetchProfile();
             recordVisit();
         });
+
+        // 모드별 동적 페이지 타이틀 식별 함수
+        function applyDynamicTitle() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('mode') === 'open') {
+                document.title = "[비즈니스 개방형] 한덕환 작가 - AI 컨설턴트";
+            } else {
+                document.title = "한덕환 작가 - 인생 후반전을 설계하는 AI 컨설턴트";
+            }
+        }
 
         function renderQR() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -353,7 +364,6 @@
                         if (d["생활철학"]) document.getElementById("ui-quote").innerText = d["생활철학"];
                         if (d["소개글"]) document.getElementById("ui-bio").innerText = d["소개글"];
                         
-                        // 경력 텍스트 변환 및 불필요 문구 강제 삭제 로직
                         if (d["경력_전반전"]) {
                             let preText = String(d["경력_전반전"]).replace("(정보|경영 전략전문)", "").trim();
                             document.getElementById("ui-career-pre").innerText = preText;
@@ -365,7 +375,6 @@
                             document.getElementById("ui-career-post").innerText = postText;
                         }
                         
-                        // 라벨 문법 정적 주입
                         document.querySelector('.timeline-box:nth-child(2) .timeline-label').innerText = "《이제는.좋아하는 일만 하는 사람》";
                         document.querySelector('.timeline-box:nth-child(3) .timeline-label').innerText = "《그전엔.직장인 30년》";
                         
