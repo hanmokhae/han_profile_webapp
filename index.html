@@ -53,6 +53,12 @@
         .info-list li strong { color: var(--text-main); display: inline-block; width: 80px; }
         .qr-section { margin-top: 24px; padding-top: 16px; border-top: 1px dashed #cedadb; }
         .qr-placeholder { width: 140px; height: 140px; background-color: #f1f3f4; margin: 12px auto; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-sub); border: 1px solid #dadce0; }
+        
+        /* 방명록 UI 스타일 */
+        .guestbook-form { margin-top: 24px; text-align: left; background: #f1f3f4; padding: 16px; border-radius: 8px; }
+        .guestbook-form input, .guestbook-form textarea { width: 100%; padding: 8px; margin-top: 6px; margin-bottom: 12px; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        .guestbook-form button { width: 100%; background-color: var(--primary-color); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .guestbook-form button:disabled { background-color: #a8c7fa; }
     </style>
 </head>
 <body>
@@ -72,6 +78,13 @@
             <li><strong>콘텐츠</strong> 서울 둘레길 및 도보 여행 스토리텔링 채널 운영</li>
         </ul>
 
+        <div class="section-title">방명록 남기기</div>
+        <div class="guestbook-form">
+            <input type="text" id="gb-author" placeholder="성함 또는 닉네임" required>
+            <textarea id="gb-content" rows="3" placeholder="작가님께 남길 응원이나 메시지를 적어주세요." required></textarea>
+            <button id="gb-submit" onclick="submitGuestbook()">방명록 등록하기</button>
+        </div>
+
         <div class="qr-section">
             <div style="font-size: 14px; font-weight: 600;">온라인 명함 QR 코드</div>
             <div class="qr-placeholder">QR 코드 영역<br>(추후 이미지 연동)</div>
@@ -79,9 +92,51 @@
     </div>
 
     <script>
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwnBnMN2I7HNoD_EX2xhlOckZeliRYgNR7TmOtoJrofeJGPWv-civ37vx2qQXJJz9po/exec";
+
         window.addEventListener('DOMContentLoaded', () => {
-            console.log("페이지 로드 완료. API 연동 대기 중.");
+            fetch(`${GAS_API_URL}?action=logVisit&device=${encodeURIComponent(navigator.userAgent)}&referrer=${encodeURIComponent(document.referrer)}`)
+                .then(res => res.json())
+                .catch(err => console.log("방문 기록 전송 오류:", err));
         });
+
+        function submitGuestbook() {
+            const author = document.getElementById('gb-author').value.trim();
+            const content = document.getElementById('gb-content').value.trim();
+            const btn = document.getElementById('gb-submit');
+
+            if (!author || !content) {
+                alert("성함과 내용을 모두 입력해주세요.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "등록 중...";
+
+            fetch(GAS_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: "addGuestbook", author: author, content: content, category: "일반 응원" })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("방명록이 등록되었습니다.");
+                    document.getElementById('gb-author').value = "";
+                    document.getElementById('gb-content').value = "";
+                } else {
+                    alert("등록 실패: " + data.message);
+                }
+            })
+            .catch(err => {
+                alert("오류가 발생했습니다.");
+                console.error(err);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerText = "방명록 등록하기";
+            });
+        }
     </script>
 </body>
 </html>
