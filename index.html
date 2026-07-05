@@ -355,19 +355,25 @@
                         if (d["경력_전반전"]) document.getElementById("ui-career-pre").innerText = d["경력_전반전"];
                         if (d["경력_후반전"]) document.getElementById("ui-career-post").innerText = d["경력_후반전"];
                         
-                        // 프로필 사진 표시 로직 (문자열 체크 적용)
-                        if (d["프로필사진URL"] && typeof d["프로필사진URL"] === "string" && d["프로필사진URL"].trim() !== "") {
-                            let imgUrl = d["프로필사진URL"].trim();
-                            const driveMatch = imgUrl.match(/\/(?:file\/d\/|open\?id=)([\w-]+)/);
+                        // 프로필 사진 강제 추출 및 유연한 렌더링 로직
+                        let rawImg = d["프로필사진URL"] || d["프로필사진"] || d["사진"] || "";
+                        if (typeof rawImg === "object") {
+                            rawImg = rawImg.url || rawImg.src || JSON.stringify(rawImg);
+                            if (rawImg === "{}" || rawImg.includes("object Object")) rawImg = "";
+                        }
+                        rawImg = String(rawImg).trim();
+                        
+                        if (rawImg !== "" && rawImg !== "{}") {
+                            const driveMatch = rawImg.match(/\/(?:file\/d\/|open\?id=)([\w-]+)/);
                             if (driveMatch && driveMatch[1]) {
-                                imgUrl = `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+                                rawImg = `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
                             }
-                            document.getElementById("img-wrap").innerHTML = `<img src="${imgUrl}" alt="Profile" onerror="this.parentElement.innerHTML='<span style=\\'color:#94a3b8;font-size:12px;\\'>사진 로드 실패</span>'">`;
+                            document.getElementById("img-wrap").innerHTML = `<img src="${rawImg}" alt="Profile" onerror="this.parentElement.innerHTML='<span style=\\'color:#94a3b8;font-size:12px;\\'>이미지 로드 실패</span>'">`;
                         } else {
-                            document.getElementById("img-wrap").innerHTML = `<span style="color:#94a3b8;font-size:12px;">이미지 주소 없음</span>`;
+                            document.getElementById("img-wrap").innerHTML = `<span style="color:#94a3b8;font-size:12px;">사진 URL 시트 입력 필요</span>`;
                         }
                         
-                        // 개방 모드 전화번호 표출 강화 로직
+                        // 전화번호 모드 분기 처리
                         const urlParams = new URLSearchParams(window.location.search);
                         const phoneEl = document.getElementById('ui-phone');
                         if (urlParams.get('mode') === 'open') {
