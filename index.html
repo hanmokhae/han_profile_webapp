@@ -263,29 +263,29 @@
             <ul class="contact-list">
                 <li><strong>이메일</strong> <span>hanmokhae@gmail.com</span></li>
                 <li><strong>유튜브 채널</strong> <span>@혼자걷다보면</span></li>
-                <li><strong>브런치 수필</strong> <span>투빈대디</span></li>
+                <li><strong>브런치 작가</strong> <span>투빈대디</span></li>
                 <li><strong>연락처(HP)</strong> <span id="ui-phone">비공개 (비즈니스 미팅 시 개방)</span></li>
             </ul>
         </div>
 
-        <!-- 2. 30년 통찰 이력 카드 -->
+        <!-- 2. 경력 및 활동 통찰 카드 (인생의 아침이 상단에 가도록 순서 배치 완료) -->
         <div class="card">
             <div class="section-header">경력 및 활동 통찰</div>
             <div class="timeline-box">
-                <div class="timeline-label">인생 전반전 (30년 경험)</div>
+                <div class="timeline-label">인생의 아침</div>
                 <div class="timeline-desc" id="ui-career-pre"></div>
             </div>
             <div class="timeline-box">
-                <div class="timeline-label">인생 후반전 (현재 활동)</div>
+                <div class="timeline-label">인생의 오후</div>
                 <div class="timeline-desc" id="ui-career-post"></div>
             </div>
         </div>
 
-        <!-- 3. 독립 QR 코드 연결 카드 -->
+        <!-- 3. 독립 QR 코드 연결 카드 (타이틀 온라인 명함 QR 통합 완료) -->
         <div class="card qr-section">
-            <div class="section-header" style="justify-content: center;" id="qr-title">온라인 명함 QR (비개방 버전)</div>
+            <div class="section-header" style="justify-content: center;">온라인 명함 QR</div>
             <div class="qr-box" id="qrcode"></div>
-            <div class="qr-desc" id="qr-desc">[비개방 모드] 전화번호 비공개 페이지 연결 QR</div>
+            <div class="qr-desc" id="qr-desc">전화번호 비공개 페이지 연결 QR</div>
         </div>
 
         <!-- 4. AI 페르소나 대화 카드 -->
@@ -329,8 +329,7 @@
             const targetUrl = isModeOpen ? (baseUrl + "?mode=open") : baseUrl;
 
             if (isModeOpen) {
-                document.getElementById('qr-title').innerText = "온라인 명함 QR (개방 버전)";
-                document.getElementById('qr-desc').innerText = "[개방 모드] 연락처 포함 비즈니스 페이지 연결 QR";
+                document.getElementById('qr-desc').innerText = "연락처 포함 비즈니스 페이지 연결 QR";
             }
 
             new QRCode(document.getElementById("qrcode"), {
