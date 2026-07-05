@@ -54,13 +54,11 @@
         .qr-section { margin-top: 24px; padding-top: 16px; border-top: 1px dashed #cedadb; }
         .qr-placeholder { width: 140px; height: 140px; background-color: #f1f3f4; margin: 12px auto; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-sub); border: 1px solid #dadce0; }
         
-        /* 공통 폼 UI 스타일 */
         .form-box { margin-top: 16px; text-align: left; background: #f1f3f4; padding: 16px; border-radius: 8px; }
         .form-box input, .form-box textarea { width: 100%; padding: 8px; margin-top: 6px; margin-bottom: 12px; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
         .form-box button { width: 100%; background-color: var(--primary-color); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
         .form-box button:disabled { background-color: #a8c7fa; }
         
-        /* 챗봇 대화창 스타일 */
         .chat-history { max-height: 200px; overflow-y: auto; background: #ffffff; border: 1px solid #dadce0; border-radius: 4px; padding: 8px; margin-bottom: 12px; font-size: 13px; line-height: 1.5; }
         .msg-user { color: #1a73e8; font-weight: 600; margin-bottom: 4px; }
         .msg-ai { color: #202124; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 4px; }
@@ -109,9 +107,18 @@
         const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwnBnMN2I7HNoD_EX2xhlOckZeliRYgNR7TmOtoJrofeJGPWv-civ37vx2qQXJJz9po/exec";
 
         window.addEventListener('DOMContentLoaded', () => {
-            fetch(`${GAS_API_URL}?action=logVisit&device=${encodeURIComponent(navigator.userAgent)}&referrer=${encodeURIComponent(document.referrer)}`)
-                .then(res => res.json())
-                .catch(err => console.log("방문 기록 전송 오류:", err));
+            fetch(GAS_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ 
+                    action: "logVisit", 
+                    device: navigator.userAgent, 
+                    referrer: document.referrer 
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log("방문 기록 전송 결과:", data))
+            .catch(err => console.log("방문 기록 전송 오류:", err));
         });
 
         function askAI() {
@@ -147,7 +154,6 @@
             })
             .finally(() => {
                 btn.disabled = false;
-
                 btn.innerText = "AI에게 질문 전송";
                 historyEl.scrollTop = historyEl.scrollHeight;
             });
