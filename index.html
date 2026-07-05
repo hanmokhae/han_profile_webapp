@@ -145,6 +145,24 @@
             color: var(--text-sub);
             line-height: 1.5;
         }
+        .qr-section {
+            text-align: center;
+            padding: 20px 24px;
+        }
+        .qr-box {
+            display: inline-block;
+            padding: 12px;
+            background-color: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+        .qr-desc {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-top: 6px;
+            font-weight: 600;
+        }
         .chat-container {
             display: flex;
             flex-direction: column;
@@ -227,32 +245,13 @@
             font-size: 14px;
             cursor: pointer;
         }
-        .qr-section {
-            text-align: center;
-            padding-top: 8px;
-        }
-        .qr-box {
-            display: inline-block;
-            padding: 12px;
-            background-color: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            margin-top: 8px;
-        }
-        .qr-desc {
-            font-size: 12px;
-            color: var(--text-sub);
-            margin-top: 6px;
-            font-weight: 600;
-        }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- 프로필 카드 -->
         <div class="card header-section">
             <div class="profile-img-wrap" id="img-wrap">
-                <span style="color:#94a3b8; font-size:12px;">로딩 중...</span>
+                <span style="color:#94a3b8; font-size:12px;">사진 로딩 중...</span>
             </div>
             <div class="name" id="ui-name">한덕환 작가</div>
             <div class="title" id="ui-title">데이터 동기화 중...</div>
@@ -267,7 +266,6 @@
             </ul>
         </div>
 
-        <!-- 30년 통찰 이력 카드 -->
         <div class="card">
             <div class="section-header">경력 및 활동 통찰</div>
             <div class="timeline-box">
@@ -280,7 +278,12 @@
             </div>
         </div>
 
-        <!-- AI 페르소나 대화 카드 -->
+        <div class="card qr-section">
+            <div class="section-header" style="justify-content: center;" id="qr-title">온라인 명함 QR (비개방 버전)</div>
+            <div class="qr-box" id="qrcode"></div>
+            <div class="qr-desc" id="qr-desc">[비개방 모드] 전화번호 비공개 페이지 연결 QR</div>
+        </div>
+
         <div class="card">
             <div class="section-header">한덕환 AI와 대화하기</div>
             <div class="chat-container">
@@ -294,7 +297,6 @@
             </div>
         </div>
 
-        <!-- 방명록 카드 -->
         <div class="card">
             <div class="section-header">방명록 남기기</div>
             <div class="form-group">
@@ -302,13 +304,6 @@
                 <textarea id="gb-content" rows="3" placeholder="응원이나 메시지를 적어주세요." required></textarea>
                 <button id="gb-btn" onclick="submitGuestbook()">방명록 등록</button>
             </div>
-        </div>
-
-        <!-- 독립 QR 코드 연결 카드 -->
-        <div class="card qr-section">
-            <div class="section-header" style="justify-content: center;" id="qr-title">온라인 명함 QR (비개방 버전)</div>
-            <div class="qr-box" id="qrcode"></div>
-            <div class="qr-desc" id="qr-desc">[비개방 모드] 전화번호 비공개 페이지 QR</div>
         </div>
     </div>
 
@@ -329,7 +324,7 @@
 
             if (isModeOpen) {
                 document.getElementById('qr-title').innerText = "온라인 명함 QR (개방 버전)";
-                document.getElementById('qr-desc').innerText = "[개방 모드] 연락처 포함 비즈니스 페이지 QR";
+                document.getElementById('qr-desc').innerText = "[개방 모드] 연락처 포함 비즈니스 페이지 연결 QR";
             }
 
             new QRCode(document.getElementById("qrcode"), {
@@ -354,8 +349,15 @@
                         if (d["소개글"]) document.getElementById("ui-bio").innerText = d["소개글"];
                         if (d["경력_전반전"]) document.getElementById("ui-career-pre").innerText = d["경력_전반전"];
                         if (d["경력_후반전"]) document.getElementById("ui-career-post").innerText = d["경력_후반전"];
+                        
+                        // 구글 드라이브 주소 변환 알고리즘 포함 프로필 사진 표시
                         if (d["프로필사진URL"]) {
-                            document.getElementById("img-wrap").innerHTML = `<img src="${d["프로필사진URL"]}" alt="Profile">`;
+                            let imgUrl = d["프로필사진URL"].trim();
+                            const driveMatch = imgUrl.match(/\/(?:file\/d\/|open\?id=)([\w-]+)/);
+                            if (driveMatch && driveMatch[1]) {
+                                imgUrl = `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+                            }
+                            document.getElementById("img-wrap").innerHTML = `<img src="${imgUrl}" alt="Profile" onerror="this.parentElement.innerHTML='<span style=\\'color:#94a3b8;font-size:12px;\\'>사진 로드 실패</span>'">`;
                         }
                         
                         const urlParams = new URLSearchParams(window.location.search);
