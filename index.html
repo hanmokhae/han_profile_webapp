@@ -159,10 +159,10 @@
             margin-top: 8px;
         }
         .qr-desc {
-            font-size: 12px;
-            color: var(--text-sub);
-            margin-top: 6px;
-            font-weight: 600;
+            font-size: 13px;
+            color: #ef4444;
+            margin-top: 8px;
+            font-weight: 700;
         }
         .chat-container {
             display: flex;
@@ -285,7 +285,7 @@
         <div class="card qr-section">
             <div class="section-header" style="justify-content: center;">온라인 명함 QR</div>
             <div class="qr-box" id="qrcode"></div>
-            <div class="qr-desc" id="qr-desc">전화번호 비공개 페이지 연결 QR</div>
+            <div class="qr-desc" id="qr-desc"></div>
         </div>
 
         <!-- 4. AI 페르소나 대화 카드 -->
@@ -317,30 +317,24 @@
         const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwnBnMN2I7HNoD_EX2xhlOckZeliRYgNR7TmOtoJrofeJGPWv-civ37vx2qQXJJz9po/exec";
 
         window.addEventListener('DOMContentLoaded', () => {
-            applyDynamicTitle();
             renderQR();
             fetchProfile();
             recordVisit();
         });
-
-        // 모드별 동적 페이지 타이틀 식별 함수
-        function applyDynamicTitle() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('mode') === 'open') {
-                document.title = "[비즈니스 개방형] 한덕환 작가 - AI 컨설턴트";
-            } else {
-                document.title = "한덕환 작가 - 인생 후반전을 설계하는 AI 컨설턴트";
-            }
-        }
 
         function renderQR() {
             const urlParams = new URLSearchParams(window.location.search);
             const isModeOpen = urlParams.get('mode') === 'open';
             const baseUrl = window.location.origin + window.location.pathname;
             const targetUrl = isModeOpen ? (baseUrl + "?mode=open") : baseUrl;
+            const descEl = document.getElementById('qr-desc');
 
             if (isModeOpen) {
-                document.getElementById('qr-desc').innerText = "연락처 포함 비즈니스 페이지 연결 QR";
+                descEl.innerText = "";
+                descEl.style.display = "none";
+            } else {
+                descEl.innerText = "[연락번호 비공개]";
+                descEl.style.display = "block";
             }
 
             new QRCode(document.getElementById("qrcode"), {
