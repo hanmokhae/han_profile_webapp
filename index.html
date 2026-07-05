@@ -272,11 +272,11 @@
         <div class="card">
             <div class="section-header">경력 및 활동 통찰</div>
             <div class="timeline-box">
-                <div class="timeline-label">인생의 오후 지금은:</div>
+                <div class="timeline-label">Client_오후</div>
                 <div class="timeline-desc" id="ui-career-post"></div>
             </div>
             <div class="timeline-box">
-                <div class="timeline-label">인생의 아침에는:</div>
+                <div class="timeline-label">Client_아침</div>
                 <div class="timeline-desc" id="ui-career-pre"></div>
             </div>
         </div>
@@ -353,12 +353,21 @@
                         if (d["생활철학"]) document.getElementById("ui-quote").innerText = d["생활철학"];
                         if (d["소개글"]) document.getElementById("ui-bio").innerText = d["소개글"];
                         
-                        // 경력 텍스트 내부 명세 정밀 치환 패치
-                        if (d["경력_전반전"]) document.getElementById("ui-career-pre").innerText = d["경력_전반전"];
+                        // 경력 텍스트 변환 및 불필요 문구 강제 삭제 로직
+                        if (d["경력_전반전"]) {
+                            let preText = String(d["경력_전반전"]).replace("(정보|경영 전략전문)", "").trim();
+                            document.getElementById("ui-career-pre").innerText = preText;
+                        }
                         if (d["경력_후반전"]) {
-                            let postText = String(d["경력_후반전"]).replace("서울대표 인플루언서", "서울 인플루언서 100인");
+                            let postText = String(d["경력_후반전"])
+                                .replace("서울대표 인플루언서", "서울 인플루언서 100인")
+                                .replace("인생2막 전문강사", "인생2막삶설계 전문강사");
                             document.getElementById("ui-career-post").innerText = postText;
                         }
+                        
+                        // 라벨 문법 정적 주입
+                        document.querySelector('.timeline-box:nth-child(2) .timeline-label').innerText = "《이제는.좋아하는 일만 하는 사람》";
+                        document.querySelector('.timeline-box:nth-child(3) .timeline-label').innerText = "《그전엔.직장인 30년》";
                         
                         let rawImg = d["프로필사진URL"] || d["프로필사진"] || d["사진"] || "";
                         if (typeof rawImg === "object") {
