@@ -268,7 +268,7 @@
             </ul>
         </div>
 
-        <!-- 2. 경력 및 활동 통찰 카드 (요청 명세 문구 수정 반영) -->
+        <!-- 2. 경력 및 활동 통찰 카드 -->
         <div class="card">
             <div class="section-header">경력 및 활동 통찰</div>
             <div class="timeline-box">
@@ -352,8 +352,13 @@
                         if (d["핵심타이틀"]) document.getElementById("ui-title").innerText = d["핵심타이틀"];
                         if (d["생활철학"]) document.getElementById("ui-quote").innerText = d["생활철학"];
                         if (d["소개글"]) document.getElementById("ui-bio").innerText = d["소개글"];
+                        
+                        // 경력 텍스트 내부 명세 정밀 치환 패치
                         if (d["경력_전반전"]) document.getElementById("ui-career-pre").innerText = d["경력_전반전"];
-                        if (d["경력_후반전"]) document.getElementById("ui-career-post").innerText = d["경력_후반전"];
+                        if (d["경력_후반전"]) {
+                            let postText = String(d["경력_후반전"]).replace("서울대표 인플루언서", "서울 인플루언서 100인");
+                            document.getElementById("ui-career-post").innerText = postText;
+                        }
                         
                         let rawImg = d["프로필사진URL"] || d["프로필사진"] || d["사진"] || "";
                         if (typeof rawImg === "object") {
