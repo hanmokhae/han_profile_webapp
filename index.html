@@ -3,103 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한목해 작가 - 차세대 지능형 온라인 자기소개</title>
+    <title>한덕환 작가 - 인생 후반전을 설계하는 AI 컨설턴트</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
-            --primary-color: #1a73e8;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-main: #202124;
-            --text-sub: #5f6368;
+            --bg-page: #f0f4f8;
+            --surface: #ffffff;
+            --primary: #0f4c81;
+            --primary-light: #e6f0fa;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border: #e2e8f0;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-page);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 16px;
             display: flex;
             justify-content: center;
         }
-        .profile-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            max-width: 420px;
+        .app-container {
+            max-width: 480px;
             width: 100%;
-            padding: 32px 24px;
-            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .card {
+            background-color: var(--surface);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+        .header-section {
             text-align: center;
         }
-        .avatar {
-            width: 120px;
-            height: 120px;
+        .profile-img-wrap {
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            background-color: #e8f0fe;
+            overflow: hidden;
             margin: 0 auto 16px;
+            border: 3px solid var(--primary-light);
+            background-color: var(--bg-page);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
-            color: var(--primary-color);
-            font-weight: bold;
         }
-        h1 { font-size: 24px; margin: 0 0 8px; }
-        .role { font-size: 16px; color: var(--primary-color); font-weight: 600; margin-bottom: 16px; }
-        .bio { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 24px; }
-        .section-title { font-size: 16px; font-weight: bold; margin: 24px 0 12px; text-align: left; border-bottom: 2px solid #e8eaed; padding-bottom: 6px; }
-        .info-list { list-style: none; padding: 0; margin: 0; text-align: left; }
-        .info-list li { padding: 8px 0; font-size: 14px; color: var(--text-sub); border-bottom: 1px solid #f1f3f4; }
-        .info-list li strong { color: var(--text-main); display: inline-block; width: 80px; }
-        .qr-section { margin-top: 24px; padding-top: 16px; border-top: 1px dashed #cedadb; }
-        .qr-placeholder { width: 140px; height: 140px; background-color: #f1f3f4; margin: 12px auto; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-sub); border: 1px solid #dadce0; }
-        
-        .form-box { margin-top: 16px; text-align: left; background: #f1f3f4; padding: 16px; border-radius: 8px; }
-        .form-box input, .form-box textarea { width: 100%; padding: 8px; margin-top: 6px; margin-bottom: 12px; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
-        .form-box button { width: 100%; background-color: var(--primary-color); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .form-box button:disabled { background-color: #a8c7fa; }
-        
-        .chat-history { max-height: 200px; overflow-y: auto; background: #ffffff; border: 1px solid #dadce0; border-radius: 4px; padding: 8px; margin-bottom: 12px; font-size: 13px; line-height: 1.5; }
-        .msg-user { color: #1a73e8; font-weight: 600; margin-bottom: 4px; }
-        .msg-ai { color: #202124; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 4px; }
+        .profile-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .name {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 6px;
+            color: var(--text-main);
+        }
+        .title {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .quote {
+            font-size: 13px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 8px 14px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        .bio {
+            font-size: 14px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            text-align: left;
+            margin-bottom: 16px;
+        }
+        .contact-list {
+            list-style: none;
+            padding: 12px;
+            margin: 0;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: left;
+            font-size: 13px;
+        }
+        .contact-list li {
+            padding: 6px 0;
+            color: var(--text-sub);
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed var(--border);
+        }
+        .contact-list li:last-child {
+            border-bottom: none;
+        }
+        .contact-list strong {
+            color: var(--text-main);
+        }
+        .section-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .section-header::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+        .timeline-box {
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary);
+        }
+        .timeline-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        .timeline-desc {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chat-log {
+            max-height: 220px;
+            overflow-y: auto;
+            background-color: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .msg-ai {
+            align-self: flex-start;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 12px 12px 12px 2px;
+            max-width: 85%;
+        }
+        .msg-user {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px;
+            border-radius: 12px 12px 2px 12px;
+            max-width: 85%;
+        }
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+        .input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+        .input-group button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .input-group button:disabled {
+            background-color: #94a3b8;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            background-color: var(--text-main);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .qr-section {
+            text-align: center;
+            padding-top: 8px;
+        }
+        .qr-box {
+            display: inline-block;
+            padding: 12px;
+            background-color: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+        .qr-desc {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-top: 6px;
+        }
     </style>
 </head>
 <body>
-    <div class="profile-card">
-        <div class="avatar">한</div>
-        <h1>한목해 작가</h1>
-        <div class="role">시니어 디지털 기술·AI 교육 전문가</div>
-        <div class="bio">
-            4060 및 6070 세대를 위한 스마트 디바이스 및 생성형 AI 실용 교육을 진행합니다.<br>
-            복잡한 기술을 일상의 언어로 쉽게 풀어냅니다.
-        </div>
-        
-        <div class="section-title">전문 분야 및 경력</div>
-        <ul class="info-list">
-            <li><strong>주요 분야</strong> 스마트폰 활용, 생성형 AI(Gemini 등) 실무 적용</li>
-            <li><strong>교육 대상</strong> 시니어 강사 양성, 지자체 및 시니어클럽 특강</li>
-            <li><strong>콘텐츠</strong> 서울 둘레길 및 도보 여행 스토리텔링 채널 운영</li>
-        </ul>
-
-        <div class="section-title">AI 페르소나에게 질문하기</div>
-        <div class="form-box">
-            <div id="chat-history" class="chat-history">
-                <div class="msg-ai"><strong>한목해 AI:</strong> 안녕하세요! 시니어 디지털 교육이나 궁금한 점을 편하게 물어보세요.</div>
+    <div class="app-container">
+        <!-- 프로필 카드 -->
+        <div class="card header-section">
+            <div class="profile-img-wrap" id="img-wrap">
+                <span style="color:#94a3b8; font-size:12px;">로딩 중...</span>
             </div>
-            <input type="text" id="ai-input" placeholder="질문을 입력하세요 (예: 교육은 어떻게 진행되나요?)" onkeypress="if(event.keyCode==13) askAI();">
-            <button id="ai-submit" onclick="askAI()">AI에게 질문 전송</button>
+            <div class="name" id="ui-name">한덕환 작가</div>
+            <div class="title" id="ui-title">데이터 동기화 중...</div>
+            <div class="quote" id="ui-quote">인생의 오후는 좋아하는 일만 하며 살자</div>
+            <div class="bio" id="ui-bio"></div>
+            
+            <ul class="contact-list">
+                <li><strong>이메일</strong> <span>hanmokhae@gmail.com</span></li>
+                <li><strong>유튜브 채널</strong> <span>@혼자걷다보면</span></li>
+                <li><strong>브런치 수필</strong> <span>투빈대디</span></li>
+                <li><strong>연락처(HP)</strong> <span id="ui-phone">비공개 (비즈니스 미팅 시 개방)</span></li>
+            </ul>
         </div>
 
-        <div class="section-title">방명록 남기기</div>
-        <div class="form-box">
-            <input type="text" id="gb-author" placeholder="성함 또는 닉네임" required>
-            <textarea id="gb-content" rows="3" placeholder="작가님께 남길 응원이나 메시지를 적어주세요." required></textarea>
-            <button id="gb-submit" onclick="submitGuestbook()">방명록 등록하기</button>
+        <!-- 30년 통찰 이력 카드 -->
+        <div class="card">
+            <div class="section-header">경력 및 활동 통찰</div>
+            <div class="timeline-box">
+                <div class="timeline-label">인생 전반전 (30년 경험)</div>
+                <div class="timeline-desc" id="ui-career-pre"></div>
+            </div>
+            <div class="timeline-box">
+                <div class="timeline-label">인생 후반전 (현재 활동)</div>
+                <div class="timeline-desc" id="ui-career-post"></div>
+            </div>
         </div>
 
-        <div class="qr-section">
-            <div style="font-size: 14px; font-weight: 600;">온라인 명함 QR 코드</div>
-            <div class="qr-placeholder">QR 코드 영역<br>(추후 이미지 연동)</div>
+        <!-- AI 페르소나 대화 카드 -->
+        <div class="card">
+            <div class="section-header">한덕환 AI와 대화하기</div>
+            <div class="chat-container">
+                <div class="chat-log" id="chat-log">
+                    <div class="msg-ai">반갑습니다. 인생 후반전을 여유롭게 걷고 있는 한덕환입니다. 산책이나 AI 컨설팅, 인생 2막에 대해 편하게 물어보세요.</div>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="ai-input" placeholder="질문을 입력하세요..." onkeypress="if(event.keyCode==13) askAI();">
+                    <button id="ai-btn" onclick="askAI()">전송</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 방명록 카드 -->
+        <div class="card">
+            <div class="section-header">방명록 남기기</div>
+            <div class="form-group">
+                <input type="text" id="gb-author" placeholder="성함 또는 닉네임" required>
+                <textarea id="gb-content" rows="3" placeholder="응원이나 메시지를 적어주세요." required></textarea>
+                <button id="gb-btn" onclick="submitGuestbook()">방명록 등록</button>
+            </div>
+        </div>
+
+        <!-- QR 코드 연결 카드 -->
+        <div class="card qr-section">
+            <div class="section-header" style="justify-content: center;">비즈니스 명함 QR 바로가기</div>
+            <div class="qr-box" id="qrcode"></div>
+            <div class="qr-desc" id="qr-desc">스마트폰 카메라로 스캔하여 즉시 접속</div>
         </div>
     </div>
 
@@ -107,93 +315,124 @@
         const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwnBnMN2I7HNoD_EX2xhlOckZeliRYgNR7TmOtoJrofeJGPWv-civ37vx2qQXJJz9po/exec";
 
         window.addEventListener('DOMContentLoaded', () => {
-            fetch(GAS_API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ 
-                    action: "logVisit", 
-                    device: navigator.userAgent, 
-                    referrer: document.referrer 
-                })
-            })
-            .then(res => res.json())
-            .then(data => console.log("방문 기록 전송 결과:", data))
-            .catch(err => console.log("방문 기록 전송 오류:", err));
+            checkModeAndRender();
+            fetchProfile();
+            recordVisit();
         });
 
+        function checkModeAndRender() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isModeOpen = urlParams.get('mode') === 'open';
+            const phoneEl = document.getElementById('ui-phone');
+            const baseUrl = window.location.origin + window.location.pathname;
+            const openUrl = baseUrl + "?mode=open";
+
+            if (isModeOpen) {
+                phoneEl.innerText = "010-XXXX-XXXX (등록된 연락처 개방)";
+                phoneEl.style.color = "#0f4c81";
+                phoneEl.style.fontWeight = "bold";
+                document.getElementById('qr-desc').innerText = "현재 비즈니스 개방 모드로 접속 중입니다.";
+            }
+
+            new QRCode(document.getElementById("qrcode"), {
+                text: openUrl,
+                width: 100,
+                height: 100,
+                colorDark: "#1e293b",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.L
+            });
+        }
+
+        function fetchProfile() {
+            fetch(`${GAS_API_URL}?action=getProfile`)
+                .then(res => res.json())
+                .then(res => {
+                    if (res.status === "success" && res.data) {
+                        const d = res.data;
+                        if (d["활동명"]) document.getElementById("ui-name").innerText = d["활동명"];
+                        if (d["핵심타이틀"]) document.getElementById("ui-title").innerText = d["핵심타이틀"];
+                        if (d["생활철학"]) document.getElementById("ui-quote").innerText = d["생활철학"];
+                        if (d["소개글"]) document.getElementById("ui-bio").innerText = d["소개글"];
+                        if (d["경력_전반전"]) document.getElementById("ui-career-pre").innerText = d["경력_전반전"];
+                        if (d["경력_후반전"]) document.getElementById("ui-career-post").innerText = d["경력_후반전"];
+                        if (d["프로필사진URL"]) {
+                            document.getElementById("img-wrap").innerHTML = `<img src="${d["프로필사진URL"]}" alt="Profile">`;
+                        }
+                        const urlParams = new URLSearchParams(window.location.search);
+                        if (urlParams.get('mode') === 'open' && d["연락처"]) {
+                            document.getElementById('ui-phone').innerText = d["연락처"];
+                        }
+                    }
+                })
+                .catch(err => console.log("프로필 동기화 실패:", err));
+        }
+
+        function recordVisit() {
+            fetch(GAS_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: "logVisit", device: navigator.userAgent, referrer: document.referrer })
+            }).catch(err => console.log("방문 기록 오류:", err));
+        }
+
         function askAI() {
-            const inputEl = document.getElementById('ai-input');
-            const message = inputEl.value.trim();
-            const btn = document.getElementById('ai-submit');
-            const historyEl = document.getElementById('chat-history');
+            const inputEl = document.getElementById("ai-input");
+            const btnEl = document.getElementById("ai-btn");
+            const logEl = document.getElementById("chat-log");
+            const msg = inputEl.value.trim();
+            if (!msg) return;
 
-            if (!message) return;
-
-            historyEl.innerHTML += `<div class="msg-user">질문: ${message}</div>`;
+            logEl.innerHTML += `<div class="msg-user">${msg}</div>`;
             inputEl.value = "";
-            historyEl.scrollTop = historyEl.scrollHeight;
-
-            btn.disabled = true;
-            btn.innerText = "AI 답변 생성 중...";
+            logEl.scrollTop = logEl.scrollHeight;
+            btnEl.disabled = true;
+            btnEl.innerText = "...";
 
             fetch(GAS_API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: "chatPersona", message: message })
+                body: JSON.stringify({ action: "chatPersona", message: msg })
             })
             .then(res => res.json())
             .then(data => {
-                if (data.status === "success") {
-                    historyEl.innerHTML += `<div class="msg-ai"><strong>한목해 AI:</strong> ${data.reply}</div>`;
-                } else {
-                    historyEl.innerHTML += `<div class="msg-ai" style="color:red;">답변 오류: ${data.message}</div>`;
-                }
+                const reply = (data.status === "success") ? data.reply : "오류가 발생했습니다.";
+                logEl.innerHTML += `<div class="msg-ai">${reply}</div>`;
             })
-            .catch(err => {
-                historyEl.innerHTML += `<div class="msg-ai" style="color:red;">통신 오류가 발생했습니다.</div>`;
+            .catch(() => {
+                logEl.innerHTML += `<div class="msg-ai" style="color:red;">통신 실패</div>`;
             })
             .finally(() => {
-                btn.disabled = false;
-                btn.innerText = "AI에게 질문 전송";
-                historyEl.scrollTop = historyEl.scrollHeight;
+                btnEl.disabled = false;
+                btnEl.innerText = "전송";
+                logEl.scrollTop = logEl.scrollHeight;
             });
         }
 
         function submitGuestbook() {
-            const author = document.getElementById('gb-author').value.trim();
-            const content = document.getElementById('gb-content').value.trim();
-            const btn = document.getElementById('gb-submit');
+            const authorEl = document.getElementById("gb-author");
+            const contentEl = document.getElementById("gb-content");
+            const btnEl = document.getElementById("gb-btn");
+            if (!authorEl.value.trim() || !contentEl.value.trim()) return;
 
-            if (!author || !content) {
-                alert("성함과 내용을 모두 입력해주세요.");
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerText = "등록 중...";
+            btnEl.disabled = true;
+            btnEl.innerText = "등록 중...";
 
             fetch(GAS_API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: "addGuestbook", author: author, content: content, category: "일반 응원" })
+                body: JSON.stringify({ action: "addGuestbook", author: authorEl.value.trim(), content: contentEl.value.trim() })
             })
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
-                    alert("방명록이 등록되었습니다.");
-                    document.getElementById('gb-author').value = "";
-                    document.getElementById('gb-content').value = "";
-                } else {
-                    alert("등록 실패: " + data.message);
+                    authorEl.value = "";
+                    contentEl.value = "";
                 }
             })
-            .catch(err => {
-                alert("오류가 발생했습니다.");
-                console.error(err);
-            })
             .finally(() => {
-                btn.disabled = false;
-                btn.innerText = "방명록 등록하기";
+                btnEl.disabled = false;
+                btnEl.innerText = "방명록 등록";
             });
         }
     </script>
