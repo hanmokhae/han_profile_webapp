@@ -57,6 +57,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center 20%;
         }
         .name {
             font-size: 22px;
@@ -355,7 +356,6 @@
                         if (d["경력_전반전"]) document.getElementById("ui-career-pre").innerText = d["경력_전반전"];
                         if (d["경력_후반전"]) document.getElementById("ui-career-post").innerText = d["경력_후반전"];
                         
-                        // 프로필 사진 강제 추출 및 유연한 렌더링 로직
                         let rawImg = d["프로필사진URL"] || d["프로필사진"] || d["사진"] || "";
                         if (typeof rawImg === "object") {
                             rawImg = rawImg.url || rawImg.src || JSON.stringify(rawImg);
@@ -373,7 +373,6 @@
                             document.getElementById("img-wrap").innerHTML = `<span style="color:#94a3b8;font-size:12px;">사진 URL 시트 입력 필요</span>`;
                         }
                         
-                        // 전화번호 모드 분기 처리
                         const urlParams = new URLSearchParams(window.location.search);
                         const phoneEl = document.getElementById('ui-phone');
                         if (urlParams.get('mode') === 'open') {
