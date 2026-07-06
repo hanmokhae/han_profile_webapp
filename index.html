@@ -268,9 +268,8 @@
             
             <ul class="contact-list">
                 <li><strong>이메일</strong> <span>hanmokhae@gmail.com</span></li>
-                <li><strong>유튜브 채널</strong> <span>@혼자걷다보면</span></li>
-                <li><strong>브런치 작가</strong> <span>투빈대디</span></li>
-                <li><strong>연락처(HP)</strong> <span id="ui-phone">비공개</span></li>
+                <li><strong>유튜브작가</strong> <span>@혼자걷다보면</span></li>
+                <li><strong>브런치작가</strong> <span>투빈대디</span></li>
             </ul>
         </div>
 
@@ -299,7 +298,7 @@
             <div class="section-header">소통하기</div>
             <div class="chat-container">
                 <div class="chat-log" id="chat-log">
-                    <div class="msg-ai">반갑습니다. 인생 후반전을 여유롭게 걷고 있는 한덕환입니다. 산책이나 AI 컨설팅, 인생 2막에 대해 편하게 물어보세요.</div>
+                    <div class="msg-ai">반갑습니다. AI컨설턴트 한덕환 입니다. 혹시 질의하실 것이 있으면 이곳에 해 주세요! </div>
                 </div>
                 <div class="input-group">
                     <input type="text" id="ai-input" placeholder="질문을 입력하세요..." onkeypress="if(event.keyCode==13) askAI();">
@@ -399,13 +398,17 @@
                         const phoneEl = document.getElementById('ui-phone');
                         if (urlParams.get('mode') === 'open') {
                             const phoneVal = d["연락처"] ? String(d["연락처"]).trim() : "010-3280-4309";
-                            phoneEl.innerText = phoneVal;
-                            phoneEl.style.color = "#0f4c81";
-                            phoneEl.style.fontWeight = "800";
+                            if (phoneEl) {
+                                phoneEl.innerText = phoneVal;
+                                phoneEl.style.color = "#0f4c81";
+                                phoneEl.style.fontWeight = "800";
+                            }
                         } else {
-                            phoneEl.innerText = "비공개";
-                            phoneEl.style.color = "#64748b";
-                            phoneEl.style.fontWeight = "normal";
+                            if (phoneEl) {
+                                phoneEl.innerText = "비공개";
+                                phoneEl.style.color = "#64748b";
+                                phoneEl.style.fontWeight = "normal";
+                            }
                         }
                     }
                 })
