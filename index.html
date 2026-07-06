@@ -270,6 +270,7 @@
                 <li><strong>이메일</strong> <span>hanmokhae@gmail.com</span></li>
                 <li><strong>유튜브채널</strong> <span>@혼자걷다보면</span></li>
                 <li><strong>브런치작가</strong> <span>'투빈대디'</span></li>
+                <li><strong>연락처(HP)</strong> <span id="ui-phone">별도확인</span></li>
             </ul>
         </div>
 
@@ -406,15 +407,14 @@
                         const urlParams = new URLSearchParams(window.location.search);
                         const phoneEl = document.getElementById('ui-phone');
                         if (urlParams.get('mode') === 'open') {
-                            const phoneVal = d["연락처"] ? String(d["연락처"]).trim() : "010-3280-4309";
                             if (phoneEl) {
-                                phoneEl.innerText = phoneVal;
+                                phoneEl.innerText = "010-3280-4309";
                                 phoneEl.style.color = "#0f4c81";
                                 phoneEl.style.fontWeight = "800";
                             }
                         } else {
                             if (phoneEl) {
-                                phoneEl.innerText = "비공개";
+                                phoneEl.innerText = "별도확인";
                                 phoneEl.style.color = "#64748b";
                                 phoneEl.style.fontWeight = "normal";
                             }
