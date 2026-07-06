@@ -269,7 +269,7 @@
             <ul class="contact-list">
                 <li><strong>이메일</strong> <span>hanmokhae@gmail.com</span></li>
                 <li><strong>유튜브채널</strong> <span>@혼자걷다보면</span></li>
-                <li><strong>브런치작가</strong> <span>'투빈대디'</span></li>
+                <li><strong>브런치작가</strong> <span>투빈대디</span></li>
                 <li><strong>연락처(HP)</strong> <span id="ui-phone">별도확인</span></li>
             </ul>
         </div>
@@ -364,7 +364,10 @@
                             document.getElementById("ui-title").innerText = cleanTitle;
                         }
                         if (d["생활철학"]) document.getElementById("ui-quote").innerText = d["생활철학"];
-                        if (d["소개글"]) document.getElementById("ui-bio").innerText = d["소개글"];
+                        if (d["소개글"]) {
+                            let bioText = String(d["소개글"]).replace("대기업/중소기업 30년 통찰을 바탕으로 소상공/소기업 실질 성과 AI 컨설팅", "대기업/소기업 30년통찰로 소상공/소기업 실질성과 중심 AI컨설팅");
+                            document.getElementById("ui-bio").innerText = bioText;
+                        }
                         
                         if (d["경력_전반전"]) {
                             let preText = String(d["경력_전반전"])
