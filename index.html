@@ -148,6 +148,10 @@
             color: var(--text-sub);
             line-height: 1.5;
         }
+        .timeline-desc strong {
+            font-weight: 800;
+            color: var(--text-main);
+        }
         .qr-section {
             text-align: center;
             padding: 20px 24px;
@@ -160,7 +164,6 @@
             border-radius: 12px;
             margin-top: 8px;
         }
-        /* 요구사항 반영: 눈에 띄지 않는 보통 회색 컬러 적용 */
         .qr-desc {
             font-size: 13px;
             color: var(--text-sub);
@@ -253,6 +256,7 @@
 </head>
 <body>
     <div class="app-container">
+        <!-- 1. 프로필 카드 -->
         <div class="card header-section">
             <div class="profile-img-wrap" id="img-wrap">
                 <span style="color:#94a3b8; font-size:12px;">사진 로딩 중...</span>
@@ -270,8 +274,9 @@
             </ul>
         </div>
 
+        <!-- 2. 어제와 오늘 카드 -->
         <div class="card">
-            <div class="section-header">경력 및 활동 통찰</div>
+            <div class="section-header">어제와 오늘</div>
             <div class="timeline-box">
                 <div class="timeline-label">《이제는.좋아하는 일만 하는 사람》</div>
                 <div class="timeline-desc" id="ui-career-post"></div>
@@ -282,14 +287,16 @@
             </div>
         </div>
 
+        <!-- 3. 독립 QR 코드 연결 카드 -->
         <div class="card qr-section">
             <div class="section-header" style="justify-content: center;">온라인 명함 QR</div>
             <div class="qr-box" id="qrcode"></div>
             <div class="qr-desc" id="qr-desc"></div>
         </div>
 
+        <!-- 4. 소통하기 카드 -->
         <div class="card">
-            <div class="section-header">한덕환 AI와 대화하기</div>
+            <div class="section-header">소통하기</div>
             <div class="chat-container">
                 <div class="chat-log" id="chat-log">
                     <div class="msg-ai">반갑습니다. 인생 후반전을 여유롭게 걷고 있는 한덕환입니다. 산책이나 AI 컨설팅, 인생 2막에 대해 편하게 물어보세요.</div>
@@ -301,6 +308,7 @@
             </div>
         </div>
 
+        <!-- 5. 방명록 카드 -->
         <div class="card">
             <div class="section-header">방명록 남기기</div>
             <div class="form-group">
@@ -356,14 +364,18 @@
                         if (d["소개글"]) document.getElementById("ui-bio").innerText = d["소개글"];
                         
                         if (d["경력_전반전"]) {
-                            let preText = String(d["경력_전반전"]).replace("(정보|경영 전략전문)", "").trim();
-                            document.getElementById("ui-career-pre").innerText = preText;
+                            let preText = String(d["경력_전반전"])
+                                .replace("(정보|경영 전략전문)", "")
+                                .replace(/AI컨설턴트/g, "<strong>AI컨설턴트</strong>")
+                                .trim();
+                            document.getElementById("ui-career-pre").innerHTML = preText;
                         }
                         if (d["경력_후반전"]) {
                             let postText = String(d["경력_후반전"])
                                 .replace("서울대표 인플루언서", "서울 인플루언서 100인")
-                                .replace("인생2막 전문강사", "인생2막삶설계 전문강사");
-                            document.getElementById("ui-career-post").innerText = postText;
+                                .replace("인생2막 전문강사", "인생2막삶설계 전문강사")
+                                .replace(/AI컨설턴트/g, "<strong>AI컨설턴트</strong>");
+                            document.getElementById("ui-career-post").innerHTML = postText;
                         }
                         
                         let rawImg = d["프로필사진URL"] || d["프로필사진"] || d["사진"] || "";
