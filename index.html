@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한덕환 작가 - 인생 후반전을 설계하는 AI 컨설턴트</title>
+    <title>한덕환 - 이제는 좋아하는 것만 일로 하는 사람</title>
+    <meta property="og:title" content="한덕환 - 이제는 좋아하는 것만 일로 하는 사람">
+    <meta property="og:description" content="한덕환 작가 - 인생 후반전을 설계하는 AI 컨설턴트">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
@@ -158,11 +160,12 @@
             border-radius: 12px;
             margin-top: 8px;
         }
+        /* 요구사항 반영: 눈에 띄지 않는 보통 회색 컬러 적용 */
         .qr-desc {
             font-size: 13px;
-            color: #ef4444;
+            color: var(--text-sub);
             margin-top: 8px;
-            font-weight: 700;
+            font-weight: 600;
         }
         .chat-container {
             display: flex;
@@ -250,7 +253,6 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- 1. 프로필 카드 -->
         <div class="card header-section">
             <div class="profile-img-wrap" id="img-wrap">
                 <span style="color:#94a3b8; font-size:12px;">사진 로딩 중...</span>
@@ -268,27 +270,24 @@
             </ul>
         </div>
 
-        <!-- 2. 경력 및 활동 통찰 카드 -->
         <div class="card">
             <div class="section-header">경력 및 활동 통찰</div>
             <div class="timeline-box">
-                <div class="timeline-label">Client_오후</div>
+                <div class="timeline-label">《이제는.좋아하는 일만 하는 사람》</div>
                 <div class="timeline-desc" id="ui-career-post"></div>
             </div>
             <div class="timeline-box">
-                <div class="timeline-label">Client_아침</div>
+                <div class="timeline-label">《그전엔.직장인 30년》</div>
                 <div class="timeline-desc" id="ui-career-pre"></div>
             </div>
         </div>
 
-        <!-- 3. 독립 QR 코드 연결 카드 -->
         <div class="card qr-section">
             <div class="section-header" style="justify-content: center;">온라인 명함 QR</div>
             <div class="qr-box" id="qrcode"></div>
             <div class="qr-desc" id="qr-desc"></div>
         </div>
 
-        <!-- 4. AI 페르소나 대화 카드 -->
         <div class="card">
             <div class="section-header">한덕환 AI와 대화하기</div>
             <div class="chat-container">
@@ -302,7 +301,6 @@
             </div>
         </div>
 
-        <!-- 5. 방명록 카드 -->
         <div class="card">
             <div class="section-header">방명록 남기기</div>
             <div class="form-group">
@@ -319,7 +317,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             renderQR();
             fetchProfile();
-            recordVisit();
         });
 
         function renderQR() {
@@ -333,7 +330,7 @@
                 descEl.innerText = "";
                 descEl.style.display = "none";
             } else {
-                descEl.innerText = "[연락번호 비공개]";
+                descEl.innerText = "연락번호 별도 문의";
                 descEl.style.display = "block";
             }
 
@@ -369,9 +366,6 @@
                             document.getElementById("ui-career-post").innerText = postText;
                         }
                         
-                        document.querySelector('.timeline-box:nth-child(2) .timeline-label').innerText = "《이제는.좋아하는 일만 하는 사람》";
-                        document.querySelector('.timeline-box:nth-child(3) .timeline-label').innerText = "《그전엔.직장인 30년》";
-                        
                         let rawImg = d["프로필사진URL"] || d["프로필사진"] || d["사진"] || "";
                         if (typeof rawImg === "object") {
                             rawImg = rawImg.url || rawImg.src || JSON.stringify(rawImg);
@@ -382,7 +376,7 @@
                         if (rawImg !== "" && rawImg !== "{}") {
                             const driveMatch = rawImg.match(/\/(?:file\/d\/|open\?id=)([\w-]+)/);
                             if (driveMatch && driveMatch[1]) {
-                                rawImg = `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+                                rawImg = `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w400`;
                             }
                             document.getElementById("img-wrap").innerHTML = `<img src="${rawImg}" alt="Profile" onerror="this.parentElement.innerHTML='<span style=\\'color:#94a3b8;font-size:12px;\\'>이미지 로드 실패</span>'">`;
                         } else {
@@ -404,14 +398,6 @@
                     }
                 })
                 .catch(err => console.log("프로필 동기화 실패:", err));
-        }
-
-        function recordVisit() {
-            fetch(GAS_API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: "logVisit", device: navigator.userAgent, referrer: document.referrer })
-            }).catch(err => console.log("방문 기록 오류:", err));
         }
 
         function askAI() {
