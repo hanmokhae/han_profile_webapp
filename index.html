@@ -262,14 +262,17 @@
                 <span style="color:#94a3b8; font-size:12px;">사진 로딩 중...</span>
             </div>
             <div class="name" id="ui-name">한덕환 작가</div>
-            <div class="title" id="ui-title">데이터 동기화 중...</div>
+            <!-- 요구사항 1: AI컨설턴트 & 유튜브작가 반영 -->
+            <div class="title" id="ui-title">AI컨설턴트 & 유튜브작가</div>
             <div class="quote" id="ui-quote">인생의 오후는 좋아하는 일만 하며 살자</div>
             <div class="bio" id="ui-bio"></div>
             
             <ul class="contact-list">
                 <li><strong>이메일</strong> <span>hanmokhae@gmail.com</span></li>
-                <li><strong>유튜브작가</strong> <span>@혼자걷다보면</span></li>
-                <li><strong>브런치작가</strong> <span>투빈대디</span></li>
+                <!-- 요구사항 2: 유튜브채널 기간 삭제 반영 -->
+                <li><strong>유튜브채널</strong> <span>@혼자걷다보면 (2025 서울 인플루언서 100인)</span></li>
+                <!-- 요구사항 3: 브런치작가 기간 삭제 반영 -->
+                <li><strong>브런치작가</strong> <span>'투빈대디'</span></li>
             </ul>
         </div>
 
@@ -358,13 +361,18 @@
                     if (res.status === "success" && res.data) {
                         const d = res.data;
                         if (d["활동명"]) document.getElementById("ui-name").innerText = d["활동명"];
-                        if (d["핵심타이틀"]) document.getElementById("ui-title").innerText = d["핵심타이틀"];
+                        if (d["핵심타이틀"]) {
+                            let cleanTitle = String(d["핵심타이틀"]).replace("유튜뷰 작가", "유튜브작가");
+                            document.getElementById("ui-title").innerText = cleanTitle;
+                        }
                         if (d["생활철학"]) document.getElementById("ui-quote").innerText = d["생활철학"];
                         if (d["소개글"]) document.getElementById("ui-bio").innerText = d["소개글"];
                         
                         if (d["경력_전반전"]) {
                             let preText = String(d["경력_전반전"])
                                 .replace("(정보|경영 전략전문)", "")
+                                .replace("기업/공기관/서울시50+ 인생2막삶설계 전문강사", "대기업/공기관/서울시50+ 인생2막 삶 설계 전문강사")
+                                .replace("구청 청년일자리멘토", "구청 청년일자리멘토, 소상공인온라인마케터")
                                 .replace(/AI컨설턴트/g, "<strong>AI컨설턴트</strong>")
                                 .trim();
                             document.getElementById("ui-career-pre").innerHTML = preText;
@@ -373,6 +381,8 @@
                             let postText = String(d["경력_후반전"])
                                 .replace("서울대표 인플루언서", "서울 인플루언서 100인")
                                 .replace("인생2막 전문강사", "인생2막삶설계 전문강사")
+                                .replace("기업/공기관/서울시50+ 인생2막삶설계 전문강사", "대기업/공기관/서울시50+ 인생2막 삶 설계 전문강사")
+                                .replace("구청 청년일자리멘토", "구청 청년일자리멘토, 소상공인온라인마케터")
                                 .replace(/AI컨설턴트/g, "<strong>AI컨설턴트</strong>");
                             document.getElementById("ui-career-post").innerHTML = postText;
                         }
